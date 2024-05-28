@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>LIA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+
+        .content {
+            flex: 1;
+        }
+
+        .table-success {
+            background-color: #2e7e32;
+            color: #fff;
+        }
+
+        .table-success th,
+        .table-success td,
+        .table-success thead th {
+            border-color: #fff;
+        }
+
+        .table-success {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .custom-navbar {
+            background-color: #2e7d32;
+        }
+
+        .custom-navbar .navbar-brand,
+        .custom-navbar .nav-link {
+            color: rgb(255, 255, 255);
+        }
+
+        .animate__animated.animate__fadeInUp {
+            --animate-duration: 2s;
+        }
+
+        .bg-verde {
+            background-color: #4caf50;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .py-3 {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+        .animate__animated.animate__fadeInUp {
+            --animate-duration: 2s;
+        }
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <a class="navbar-brand" href="/">[[#{nav.app}]]</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">[[#{nav.inicio}]]</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/sobrenosotros}">[[#{nav.sobren}]]</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">[[#{nav.cerrar}]]</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        [[#{lenguaje.boton}]]
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{?lang=es}">[[#{lenguaje.español}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{?lang=en}">[[#{lenguaje.ingles}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{?lang=fr}">[[#{lenguaje.frances}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{?lang=pt}">[[#{lenguaje.portugues}]]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <img src="/imagenes/card 2.png" alt="Imagen Estática"
+        class="d-block w-100 animate__animated animate__fadeInUp"
+        style="height: 300px; object-fit: cover;">
+
+    <br>
+    <br>
+    <div class="container mt-5">
+        <div>
+            <a th:href="@{'/estudiante'}" class="btn btn-success mb-3">[[#{notas.agregar}]]</a>
+        </div>
+        <br>
+        <br>
+        <div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-header text-center">
+                <h1 th:if="${estudiante.id == null}">[[#{tabla.registrone}]]</h1>
+                <h1 th:unless="${estudiante.id == null}">[[#{tabla.editarest}]]</h1>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/estudiante/guardar}" th:object="${estudiante}" method="post">
+                    <input type="hidden" th:field="*{id}" th:value="${estudiante.id}" />
+
+                    <div class="form-group">
+<br>
+                        <label for="nombre">[[#{tabla.nombreest}]]</label>
+<br>
+<br>
+                        <input type="text" id="nombre" th:field="*{nombre}" class="form-control" required />
+                    </div>
+<br>
+                    <div class="form-group">
+                        <label for="documento">[[#{tabla.documento}]]</label>
+<br>
+<br>
+                        <input type="text" id="documento" th:field="*{documento}" class="form-control" required />
+                    </div>
+<br>
+                    <div class="form-group">
+                        <label for="nota">[[#{tabla.nota}]] </label>
+<br>
+<br>
+                        <input type="text" id="nota" th:field="*{nota}" class="form-control" required />
+                    </div>
+<br>
+                    <div class="form-group">
+                        <label for="curso">[[#{tabla.curso}]]</label>
+<br>
+<br>
+                        <select id="curso" th:field="*{curso}" class="form-control" required>
+                            <th:block th:each="curso : ${listaCurso}">
+                                <option th:text="${curso.nombre}" th:value="${curso.id}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+<br>
+                    <div class="form-group">
+                        <label for="asignatura">[[#{tabla.asignatura}]]</label>
+<br>
+<br>
+                        <select id="asignatura" th:field="*{asignatura}" class="form-control" required>
+                            <th:block th:each="asignatura : ${listaAsignatura}">
+                                <option th:text="${asignatura.nombre}" th:value="${asignatura.id}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+<br>
+                    <div class="form-group">
+                        <label for="horario">[[#{tabla.horario}]]</label>
+<br>
+<br>
+                        <select id="horario" th:field="*{horario}" class="form-control" required>
+                            <th:block th:each="horario : ${listaHorario}">
+                                <option th:text="${horario.nombre}" th:value="${horario.id}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+<br>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">[[#{tabla.guardar}]]</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+    <footer class="bg-verde text-white py-3 mt-5">
+        <div class="container text-center">
+            <p>&copy; [[#{footer.mensaje}]]</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

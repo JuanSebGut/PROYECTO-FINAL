@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>LIA</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+        .custom-navbar {
+            background-color: #2e7d32;
+        }
+        .custom-navbar .navbar-brand,
+        .custom-navbar .nav-link,
+        footer {
+            font-size: 1.2em;
+        }
+        .navbar-brand, .nav-link {
+            color: rgb(255, 255, 255);
+        }
+        .table-success {
+            background-color: #28a745;
+            color: #212529;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Sombra */
+        }
+        .table-success th,
+        .table-success td {
+            border-color: #28a745;
+        }
+        h1 {
+            color: rgb(0, 128, 0);
+        }
+        /* Personalización de anchos de columnas */
+        .nombre-columna {
+            width: 70%; /* Ancho para la columna Nombre */
+        }
+        .acciones-columna {
+            width: 30%; /* Ancho para la columna Acciones */
+        }
+        footer {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+        <a class="navbar-brand" href="/">[[#{nav.app}]]</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/">[[#{nav.inicio}]]</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/sobrenosotros}">[[#{nav.sobren}]]</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">[[#{nav.cerrar}]]</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        [[#{lenguaje.boton}]]
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{?lang=es}">[[#{lenguaje.español}]]</a></li>
+                        <li><a class="dropdown-item" th:href="@{?lang=en}">[[#{lenguaje.ingles}]]</a></li>
+						<li><a class="dropdown-item" th:href="@{?lang=fr}">[[#{lenguaje.frances}]]</a></li>
+						<li><a class="dropdown-item" th:href="@{?lang=pt}">[[#{lenguaje.portugues}]]</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="container text-center">
+            <h1>[[#{asignatura.titulotabla}]]</h1>
+        </div>
+    </div>   
+
+    <br>
+    <img src="imagenes/card 2.jpg" alt="Imagen Estática" class="d-block w-100 animate__animated animate__fadeInUp" style="height: 300px; object-fit: cover;">
+    <br>
+
+    <div class="container">
+        <div>
+            <a th:href="@{'/asignatura/nuevo'}" class="btn btn-success mb-3">[[#{asignatura.agregar}]]</a>
+        </div>
+        <br>
+        <div class="container text-center">
+            <div>
+                <table class="table table-bordered table-success">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="nombre-columna">[[#{tabla.nombre}]]</th>
+                            <th class="acciones-columna">[[#{tabla.acciones}]]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="asignatura : ${listaAsignatura}">
+                            <td th:text="${asignatura.nombre}"></td>
+                            <td>
+                                <a th:href="@{'/asignatura/editar'+'/'+ ${asignatura.id}}" class="btn btn-info">[[#{tabla.editar}]]</a>
+                                <a th:href="@{'/asignatura/eliminar'+ '/' + ${asignatura.id}}" class="btn btn-danger">[[#{tabla.eliminar}]]</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer class="footer mt-auto py-3 bg-success text-white">
+        <div class="container text-center">
+            <p>&copy; 2023 App LIA. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-l2pqtoqp+uv/tK5zZvjo+81eBzB+Kc8YHNb2txLQI6jBSl5DlfEJZ+jr2x8U2PjE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-TH5j8uRqhHyvXw2+8f3Y02jQOLha4KiwFzo1+u6rvePXJgP+7D/a4g8WpTNtkFfD" crossorigin="anonymous"></script>
+</body>
+</html>
